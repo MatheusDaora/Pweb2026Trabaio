@@ -1,21 +1,12 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="#">SIG-ACAD</a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Início</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('aluno') }}">Aluno</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<aside class="w-64 bg-gray-900 text-white p-6 hidden md:block">
+    <h2 class="text-2xl font-bold mb-6 text-center">Movelaria</h2>
+    <nav class="space-y-2">
+        <a href="{{ route('home') }}" class="block py-2 px-4 hover:bg-gray-700 rounded">Dashboard</a>
+        <a href="{{ route('venda.catalogo') }}" class="block py-2 px-4 hover:bg-gray-700 rounded text-blue-300">Nova Venda (Catálogo)</a>
+        <hr class="border-gray-700 my-4">
+        <a href="{{ route('categoria.index') }}" class="block py-2 px-4 hover:bg-gray-700 rounded">Categorias</a>
+        <a href="{{ route('movel.index') }}" class="block py-2 px-4 hover:bg-gray-700 rounded">Estoque de Móveis</a>
+        <a href="{{ route('venda.index') }}" class="block py-2 px-4 hover:bg-gray-700 rounded">Histórico de Vendas</a>
+        <a href="{{ route('sob_medida.index') }}" class="block py-2 px-4 hover:bg-gray-700 rounded">Projetos Sob Medida</a>
+    </nav>
+</aside>

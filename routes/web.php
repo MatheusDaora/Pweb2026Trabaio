@@ -1,39 +1,24 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\MovelController;
+use App\Http\Controllers\VendaController;
+use App\Http\Controllers\MovelSobMedidaController;
 
 Route::get('/', function () {
-    return view('main');
-});
+    return view('welcome', [
+        'totalMoveis' => \App\Models\Movel::count(),
+        'totalEstoque' => \App\Models\Movel::sum('quantidade_estoque'),
+        'totalVendas' => \App\Models\Venda::count(),
+        'faturamento' => \App\Models\Venda::sum('valor_total'),
+        'totalSobMedida' => \App\Models\MovelSobMedida::count(),
+        'ultimosMoveis' => \App\Models\Movel::with('categoria')->latest()->take(6)->get()
+    ]);
+})->name('home');
 
-Route::get('/aluno', [AlunoController::class, 'index']);
-Route::get('/aluno/create', [AlunoController::class, 'create']);
-Route::post(
-    '/aluno/store',
-    [AlunoController::class, 'store']
-)->name('aluno.store');
-
-Route::get('/aluno/edit/{id}',
-    [AlunoController::class, 'edit'])->name('aluno.edit');
-Route::put(
-    '/aluno/update/{id}',
-    [AlunoController::class, 'update']
-)->name('aluno.update');
-
-Route::delete(
-    '/aluno/{id}',
-    [AlunoController::class, 'destroy']
-)->name('aluno.destroy');
-
-Route::post(
-    '/aluno/search',
-    [AlunoController::class, 'search']
-)->name('aluno.search');
-
-/*
-Route::get('/aluno', function () {
-    return view('aluno.list');
-    //return "<h3>Olá mundo Laravel!</h3>";
-});
-*/
+Route::resource('categoria', CategoriaController::class)->except(['create', 'edit', 'show']);
+Route::resource('movel', MovelController::class);
+Route::get('/catalogo', [VendaController::class, 'catalogo'])->name('venda.catalogo');
+// Substitua qualquer rota antiga de 'venda' por esta linha:
+Route::resource('venda', App\Http\Controllers\VendaController::class);
+Route::resource('sob_medida', MovelSobMedidaController::class);
