@@ -1,5 +1,5 @@
 <aside class="w-64 bg-gray-900 text-white p-6 hidden md:block">
-    <h2 class="text-2xl font-bold mb-6 text-center">Moveis dos </h2>
+    <h2 class="text-2xl font-bold mb-6 text-center">ChapeMoveis</h2>
     <nav class="space-y-2">
         <a href="{{ route('home') }}" class="block py-2 px-4 hover:bg-gray-700 rounded">Dashboard</a>
         <a href="{{ route('venda.catalogo') }}" class="block py-2 px-4 hover:bg-gray-700 rounded text-blue-300">Móveis Disponíveis</a>
