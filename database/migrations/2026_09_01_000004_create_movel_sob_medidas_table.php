@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->decimal('altura_m', 8, 2);
             $table->decimal('profundidade_m', 8, 2);
             $table->decimal('area_m2', 8, 2);
-            $table->decimal('valor_estimado', 10, 2);
             $table->enum('status', ['Orçamento', 'Aprovado', 'Em Produção', 'Pronto', 'Entregue'])->default('Orçamento');
             $table->text('especificacoes_tecnicas')->nullable();
             $table->timestamps();

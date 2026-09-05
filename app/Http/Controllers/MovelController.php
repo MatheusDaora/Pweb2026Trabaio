@@ -7,18 +7,24 @@ use Illuminate\Support\Facades\Storage;
 
 class MovelController extends Controller {
     public function index(Request $request) {
-        $query = Movel::with('categoria');
+        // Inicia a busca trazendo também a categoria para evitar lentidão
+        $query = \App\Models\Movel::with('categoria');
+        
+        // Se o usuário digitou algo na busca
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nome', 'like', "%{$search}%")->orWhere('material', 'like', "%{$search}%");
-            });
+            
+            $query->where('nome', 'like', "%{$search}%")
+                  ->orWhere('material', 'like', "%{$search}%")
+                  ->orWhereHas('categoria', function($q) use ($search) {
+                      $q->where('nome', 'like', "%{$search}%");
+                  });
         }
-        if ($request->filled('categoria_id')) $query->where('categoria_id', $request->categoria_id);
         
-        $moveis = $query->orderBy('created_at', 'desc')->paginate(10);
-        $categorias = Categoria::all();
-        return view('movel.index', compact('moveis', 'categorias'));
+        // Pagina os resultados
+        $moveis = $query->orderBy('nome')->paginate(10);
+        
+        return view('movel.index', compact('moveis'));
     }
 
     public function create() { return view('movel.form', ['movel' => new Movel(), 'categorias' => Categoria::all()]); }
@@ -59,9 +65,15 @@ class MovelController extends Controller {
         return redirect()->route('movel.index')->with('success', 'Móvel atualizado!');
     }
 
-    public function destroy(Movel $movel) {
-        if ($movel->imagem && !str_starts_with($movel->imagem, 'http')) Storage::disk('public')->delete($movel->imagem);
+    public function destroy($id) {
+        $movel = \App\Models\Movel::findOrFail($id);
+        
+        // Verifica se existem vendas desse móvel
+        if(\App\Models\Venda::where('movel_id', $movel->id)->exists()) {
+             return redirect()->back()->withErrors('Erro: Não é possível excluir um móvel que já possui vendas no histórico.');
+        }
+        
         $movel->delete();
-        return redirect()->route('movel.index')->with('success', 'Móvel removido!');
+        return redirect()->route('movel.index')->with('success', 'Móvel excluído do catálogo.');
     }
 }

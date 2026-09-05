@@ -20,19 +20,34 @@ class MovelSobMedidaController extends Controller {
     public function create() { return view('sob_medida.form', ['orcamento' => new MovelSobMedida()]); }
 
     public function store(Request $request) {
-        $data = $this->validateData($request);
-        $data['codigo_orcamento'] = 'MED-' . strtoupper(uniqid());
-        $orcamento = MovelSobMedida::create($data);
-        return redirect()->route('sob_medida.show', $orcamento->id)->with('success', 'Projeto registrado!');
+        $dados = $request->all();
+        
+        // Gera o código numérico curto
+        $dados['codigo_orcamento'] = rand(10000, 99999); 
+        
+        // Calcula a área em m²
+        $largura = $dados['largura_m'] ?? 0;
+        $altura = $dados['altura_m'] ?? 0;
+        $dados['area_m2'] = ($largura * $altura) / 10000;
+        
+        \App\Models\MovelSobMedida::create($dados);
+        return redirect()->route('sob_medida.index')->with('success', 'Projeto salvo!');
+    }
+
+    public function update(Request $request, $id) {
+        $orcamento = \App\Models\MovelSobMedida::findOrFail($id);
+        $dados = $request->all();
+        
+        $largura = $dados['largura_m'] ?? 0;
+        $altura = $dados['altura_m'] ?? 0;
+        $dados['area_m2'] = ($largura * $altura) / 10000;
+        
+        $orcamento->update($dados);
+        return redirect()->route('sob_medida.index')->with('success', 'Projeto atualizado!');
     }
 
     public function edit(MovelSobMedida $sob_medida) { return view('sob_medida.form', ['orcamento' => $sob_medida]); }
 
-    public function update(Request $request, MovelSobMedida $sob_medida) {
-        $data = $this->validateData($request);
-        $sob_medida->update($data);
-        return redirect()->route('sob_medida.show', $sob_medida->id)->with('success', 'Projeto atualizado!');
-    }
 
     public function show(MovelSobMedida $sob_medida) { return view('sob_medida.show', ['orcamento' => $sob_medida]); }
     

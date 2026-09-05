@@ -16,9 +16,10 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::resource('categoria', CategoriaController::class)->except(['create', 'edit', 'show']);
+Route::resource('categoria', \App\Http\Controllers\CategoriaController::class);
 Route::resource('movel', MovelController::class);
 Route::get('/catalogo', [VendaController::class, 'catalogo'])->name('venda.catalogo');
 // Substitua qualquer rota antiga de 'venda' por esta linha:
 Route::resource('venda', App\Http\Controllers\VendaController::class);
 Route::resource('sob_medida', MovelSobMedidaController::class);
+Route::delete('/venda/{venda}', [App\Http\Controllers\VendaController::class, 'destroy'])->name('venda.destroy');

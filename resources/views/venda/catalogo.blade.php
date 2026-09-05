@@ -1,6 +1,6 @@
 @extends('main')
 @section('content')
-<h1 class="text-2xl font-bold mb-6">Catálogo de Vendas</h1>
+<h1 class="text-2xl font-bold mb-6">Móveis Disponíveis</h1>
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
     @foreach($moveis as $m)
     <div class="bg-white shadow rounded overflow-hidden flex flex-col">

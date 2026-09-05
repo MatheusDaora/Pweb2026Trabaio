@@ -24,7 +24,7 @@
                 <th class="p-3">Cliente</th>
                 <th class="p-3">Tipo</th>
                 <th class="p-3">Status</th>
-                <th class="p-3">Valor</th>
+                <!-- A coluna "Valor" foi removida daqui -->
                 <th class="p-3">Ações</th>
             </tr>
         </thead>
@@ -37,10 +37,9 @@
                 <td class="p-3">
                     <span class="px-2 py-1 text-xs rounded bg-gray-100 border border-gray-300 font-semibold">{{ $o->status }}</span>
                 </td>
-                <td class="p-3 font-bold">R$ {{ number_format($o->valor_estimado, 2, ',', '.') }}</td>
                 <td class="p-3 flex gap-3">
                     <a href="{{ route('sob_medida.show', $o) }}" class="text-blue-500 hover:underline">Ver</a>
-                    <a href="{{ route('sob_medida.edit', $o) }}" class="text-yellow-600 hover:underline">Editar</a>
+                    <a href="{{ route('sob_medida.edit', $o) }}" class="text-yellow-600 hover:underline">Atualizar</a>
                     <form action="{{ route('sob_medida.destroy', $o) }}" method="POST" onsubmit="return confirm('Excluir este projeto?')">
                         @csrf @method('DELETE')
                         <button type="submit" class="text-red-500 hover:underline">Excluir</button>

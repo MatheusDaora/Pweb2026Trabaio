@@ -8,10 +8,13 @@
 <!-- BARRA DE BUSCA -->
 <div class="bg-white p-4 shadow rounded mb-4">
     <form action="{{ route('movel.index') }}" method="GET" class="flex gap-4">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar por nome ou material..." class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar por nome ou material..." class="w-full border p-2 rounded">
         <button type="submit" class="bg-gray-800 text-white px-6 py-2 rounded hover:bg-gray-900">Buscar</button>
+        
         @if(request('search'))
-            <a href="{{ route('movel.index') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Limpar</a>
+            <a href="{{ route('movel.index') }}" class="bg-red-500 text-white px-4 py-2 rounded font-semibold flex items-center">
+                Limpar
+            </a>
         @endif
     </form>
 </div>
